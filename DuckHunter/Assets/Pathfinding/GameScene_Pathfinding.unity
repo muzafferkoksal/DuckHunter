@@ -2281,6 +2281,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 0
   timeText: {fileID: 2033840968}
+  row: 0
+  column: 0
 --- !u!4 &1198489101
 Transform:
   m_ObjectHideFlags: 0
@@ -2332,8 +2334,8 @@ MonoBehaviour:
   pathfindingVisual: {fileID: 2114028294}
   characterPathfinding: {fileID: 1198489100}
   mode: 1
-  duck_count: 1
-  bomb_count: 2
+  duck_count: 3
+  bomb_count: 3
   row: 4
   column: 3
 --- !u!4 &1228460025
@@ -3367,7 +3369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2096750048}
-  - component: {fileID: 2096750047}
+  - component: {fileID: 2096750049}
   m_Layer: 0
   m_Name: BombCreator
   m_TagString: Untagged
@@ -3375,22 +3377,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2096750047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2096750046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c98913e63b650848a06840bea3c5dea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duckPrefab: {fileID: 4939198683120557078, guid: 1f1484e1fa3f2f249994c1e0464f58d3, type: 3}
-  duck_count: 0
-  row: 0
-  column: 0
 --- !u!4 &2096750048
 Transform:
   m_ObjectHideFlags: 0
@@ -3406,6 +3392,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2096750049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096750046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72531f0fca9a77048ac06fc4b243cb20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombPrefab: {fileID: 4939198683120557078, guid: 1f1484e1fa3f2f249994c1e0464f58d3, type: 3}
+  bomb_count: 0
+  row: 0
+  column: 0
 --- !u!1 &2114028292
 GameObject:
   m_ObjectHideFlags: 0

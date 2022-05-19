@@ -16,7 +16,7 @@ public class BombCreator : MonoBehaviour
     public int row;
     public int column;
     private bool spawned = false;
-
+    Grid<PathNode> grid;
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class BombCreator : MonoBehaviour
         column = GameObject.Find("Testing").GetComponent<Testing>().column;
         pathfinding = GameObject.Find("PathfindingVisual").GetComponent<PathfindingVisual>();
         bombs = new List<Bomb>();
-
+        grid = pathfinding.grid;
     }
     private void Update()
     {
@@ -38,11 +38,29 @@ public class BombCreator : MonoBehaviour
     public void spawnBombs()
     {
         spawned = true;
+        PathNode node;
+        int randx;
+        int randy;
+        bool canBE = false;
         for (int i = 0; i < bomb_count; i++)
         {
             System.Random rnd = new System.Random();
-            int randx = rnd.Next(0, row);
-            int randy = rnd.Next(0, column);
+            do
+            {
+                randx = rnd.Next(0, row);
+                randy = rnd.Next(0, column);
+                if (grid == null)
+                {
+                    grid = pathfinding.grid;
+                    continue;
+                }
+                node = grid.GetGridObject(randx, randy);
+                canBE = node.GetCanBeFilled();
+                if (canBE) { 
+                    node.SetCanBeFilled(false);
+                    node.SetProb(-5.0);
+                }
+            } while (!canBE);
             GameObject bomb = Instantiate(bombPrefab) as GameObject;
             Vector3 worldCoor = pathfinding.grid.GetWorldPosition(randx, randy);
             worldCoor.x += 5;

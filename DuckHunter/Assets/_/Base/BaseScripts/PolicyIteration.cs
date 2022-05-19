@@ -24,6 +24,7 @@ public class PolicyIteration
         ac = GameObject.Find("ArrowCreator").GetComponent<ArrowCreator>();
         numOfActions = 4;
         numOfStates = height * width;
+        Debug.Log("numOfStates:  "  + numOfStates);
         values = new double[numOfStates];
         this.transitions = transitions;
         this.gamma = gamma;
@@ -50,10 +51,12 @@ public class PolicyIteration
     {
         double delta = 0;
         int i = 0;
+        Debug.Log(grid.GetWidth() + " " + grid.GetHeight());
         for (int x = 0; x < grid.GetWidth(); x++)
         {
             for (int y = 0; y < grid.GetHeight(); y++)
             {
+                Debug.Log("i : " + i);
                 PathNode node = GetNode(startNode.x + x, startNode.y + y);
                 //Debug.Log("startNode.x: " + startNode.x + " startNode.y:" + startNode.y);
                 double temp = values[i];
@@ -82,6 +85,11 @@ public class PolicyIteration
                 } else if (tuples.Count == 3) {
                     //Debug.Log("3 count!! " + LocationFinder(tuples[1].Item4, i, height, width));
                     double asd1 = values[LocationFinder(tuples[1].Item4, i, height, width)];
+                    //Debug.Log("bbbbbbbbbbbbbbbbbbbbbbbbb ++ " + values[LocationFinder(tuples[0].Item4, i, height, width)]);
+                    //Debug.Log("fffffffffffffffffffffffff ++ " + values[LocationFinder(tuples[1].Item4, i, height, width)]);
+                    //Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaa ++ " + tuples[2].Item4);
+                    //Debug.Log("ppppppppppppppppppppppppp ++ " + LocationFinder(tuples[2].Item4, i, height, width));
+                    
                     values[i] = node.GetProb() + gamma * (tuples[0].Item5 * values[LocationFinder(tuples[0].Item4, i, height, width)] + tuples[1].Item5 * values[LocationFinder(tuples[1].Item4, i, height, width)] + tuples[2].Item5 * values[LocationFinder(tuples[2].Item4, i, height, width)]);
                 } else
                 {
@@ -255,12 +263,12 @@ public class PolicyIteration
         }
         else if (toWhere == 1)
         {//right
-            if (whereUAre + height <= 11)
+            if (whereUAre + height <= height*width - 1)
                 return whereUAre + height;
         }
         else if (toWhere == 2)
         {//up
-            if (whereUAre + 1 <= 11)
+            if (whereUAre + 1 <= height * width - 1)
                 return whereUAre + 1;
         }
         else if (toWhere == 3)

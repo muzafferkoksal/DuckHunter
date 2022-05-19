@@ -30,6 +30,7 @@ public class PathNode {
     public double util;
     public bool hasPlayer;
     public bool hasDuck;
+    public bool canBeFilled;
 
     public PathNode(Grid<PathNode> grid, int x, int y) {
         this.grid = grid;
@@ -40,6 +41,9 @@ public class PathNode {
         isWalkable = true;
         hasPlayer = false;
         hasDuck = false;
+        canBeFilled = true;
+        if(x == 0 && y == 0)
+            canBeFilled = false;        
     }
 
     public void CalculateFCost() {
@@ -48,6 +52,10 @@ public class PathNode {
 
     public void SetIsWalkable(bool isWalkable) {
         this.isWalkable = isWalkable;
+        if (this.isWalkable == false)
+            canBeFilled = false;
+        else
+            canBeFilled = true;
         grid.TriggerGridObjectChanged(x, y);
     }
 
@@ -58,6 +66,16 @@ public class PathNode {
     public void SetProb(double newProb)
     {
         prob = newProb;
+    }
+
+    public bool GetCanBeFilled()
+    {
+        return canBeFilled;
+    }
+
+    public void SetCanBeFilled(bool newb)
+    {
+        canBeFilled = newb;
     }
 
     public double GetProb()

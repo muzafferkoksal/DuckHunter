@@ -14,12 +14,13 @@ public class ArrowCreator : MonoBehaviour
     public int column;
     private PathfindingVisual pathfinding;
     private bool spawned = false;
-
+    private Grid<PathNode> grid;
     private void Start()
     {
         row = GameObject.Find("Testing").GetComponent<Testing>().row;
         column = GameObject.Find("Testing").GetComponent<Testing>().column;
         pathfinding = GameObject.Find("PathfindingVisual").GetComponent<PathfindingVisual>();
+        grid = pathfinding.grid;
     }
 
     private void Update()
@@ -34,6 +35,9 @@ public class ArrowCreator : MonoBehaviour
         {
             for(int j = 0; j < column; j++)
             {
+                PathNode pathNode = grid.GetGridObject(i, j);
+                if (!pathNode.isWalkable || !pathNode.GetCanBeFilled())
+                    continue;
                 //System.Random rnd = new System.Random();
                 //int randx = rnd.Next(0, row);
                 //int randy = rnd.Next(0, column);

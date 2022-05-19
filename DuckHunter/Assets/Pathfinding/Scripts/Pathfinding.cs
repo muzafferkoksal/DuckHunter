@@ -538,9 +538,9 @@ public class Pathfinding {
         grid.GetXY(endWorldPosition, out int endX, out int endY);
         PathNode endNode = grid.GetGridObject(endX, endY);
         PathNode startNode = grid.GetGridObject(startX, startY);
-        PathNode asd = grid.GetGridObject(3, 1);
-        endNode.SetProb(3.0);
-        asd.SetProb(-5.0);
+        //PathNode asd = grid.GetGridObject(3, 1);
+        //endNode.SetProb(3.0);
+        //asd.SetProb(-5.0);
         List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
         PolicyIteration poly = new PolicyIteration(grid.GetHeight(), grid.GetWidth(), transitions, 0.5, null, grid, startNode);
         poly.train();

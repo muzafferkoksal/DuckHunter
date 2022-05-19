@@ -37,8 +37,8 @@ public class Testing : MonoBehaviour {
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
         } else if (mode == 1)
         {
-            row = 4;
-            column = 3;
+            row = 8;
+            column = 6;
             pathfinding = new Pathfinding(row, column);
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
