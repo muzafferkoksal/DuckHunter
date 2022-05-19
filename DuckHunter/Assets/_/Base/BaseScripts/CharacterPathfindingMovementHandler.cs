@@ -56,86 +56,87 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         HandleMovement();
         unitSkeleton.Update(Time.deltaTime);
 
-        Vector3 worldHunter = new Vector3(GetPosition().x, GetPosition().y, GetPosition().z);
-        int hunterY = 0, hunterX = 0;
-        pathfinding.grid.GetXY(worldHunter, out hunterX, out hunterY);
-        worldHunter = pathfinding.grid.GetWorldPosition(hunterX, hunterY);
+        //Vector3 worldHunter = new Vector3(GetPosition().x, GetPosition().y, GetPosition().z);
+        //int hunterY = 0, hunterX = 0;
+        //pathfinding.grid.GetXY(worldHunter, out hunterX, out hunterY);
+        //worldHunter = pathfinding.grid.GetWorldPosition(hunterX, hunterY);
 
-        int duckX = 0, duckY = 0;
-        GameObject duck = null;
-        Vector3 worldDuck = new Vector3(0, 0, 0); ;
+        //int duckX = 0, duckY = 0;
+        //GameObject duck = null;
+        //Vector3 worldDuck = new Vector3(0, 0, 0); ;
 
-        if ((ducks.ducks).Any())
-        {
-            UnityEngine.Debug.Log("here");
-            Duck closest = ducks.getClosestDuck(worldHunter);
+        //if ((ducks.ducks).Any())
+        //{
+        //    UnityEngine.Debug.Log("here");
+        //    Duck closest = ducks.getClosestDuck(worldHunter);
 
-            duckX = closest.x;
-            duckY = closest.y;
-            duck = closest.duckObj;
-            worldDuck = closest.worldCoor;
-        }
-        else
-        {
-            timer.Stop();
-            string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
-            setTime(timer.Elapsed);
-            UnityEngine.Debug.Log(elapsed);
-            aiStarted = false;
-        }
-
-        if (aiStarted)
-        {
-            string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
-            setTime(timer.Elapsed);
-            SetTargetPosition(worldDuck);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            timer.Start();
-            aiStarted = true;
-            SetTargetPosition(worldDuck);
-        }
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            aiStarted = false;
-            Vector3 v = new Vector3(worldHunter.x, 299, 0);
-            SetTargetPosition(v);
-        }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            aiStarted = false;
-            Vector3 v = new Vector3(worldHunter.x, 0, 0);
-            SetTargetPosition(v);
-        }
-        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            aiStarted = false;
-            Vector3 v = new Vector3(0, worldHunter.y, 0);
-            SetTargetPosition(v);
-        }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            aiStarted = false;
-            Vector3 v = new Vector3(199, worldHunter.y, 0);
-            SetTargetPosition(v);
-        }
-
-        if (hunterX == duckX && hunterY == duckY)
-        {
-            ducks.removeDuck(duck);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Restart();
-        }
-
-        //if (Input.GetMouseButtonDown(0)) {
-        //    SetTargetPosition(UtilsClass.GetMouseWorldPosition());
-        //    Debug.Log(UtilsClass.GetMouseWorldPosition());
+        //    duckX = closest.x;
+        //    duckY = closest.y;
+        //    duck = closest.duckObj;
+        //    worldDuck = closest.worldCoor;
         //}
+        //else
+        //{
+        //    timer.Stop();
+        //    string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
+        //    setTime(timer.Elapsed);
+        //    UnityEngine.Debug.Log(elapsed);
+        //    aiStarted = false;
+        //}
+
+        //if (aiStarted)
+        //{
+        //    string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
+        //    setTime(timer.Elapsed);
+        //    SetTargetPosition(worldDuck);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+
+        //    timer.Start();
+        //    aiStarted = true;
+        //    SetTargetPosition(worldDuck);
+        //}
+        //if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+        //    aiStarted = false;
+        //    Vector3 v = new Vector3(worldHunter.x, 299, 0);
+        //    SetTargetPosition(v);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        //{
+        //    aiStarted = false;
+        //    Vector3 v = new Vector3(worldHunter.x, 0, 0);
+        //    SetTargetPosition(v);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        //{
+        //    aiStarted = false;
+        //    Vector3 v = new Vector3(0, worldHunter.y, 0);
+        //    SetTargetPosition(v);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    aiStarted = false;
+        //    Vector3 v = new Vector3(199, worldHunter.y, 0);
+        //    SetTargetPosition(v);
+        //}
+
+        //if (hunterX == duckX && hunterY == duckY)
+        //{
+        //    ducks.removeDuck(duck);
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    Restart();
+        //}
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            SetTargetPosition(UtilsClass.GetMouseWorldPosition());
+            UnityEngine.Debug.Log(UtilsClass.GetMouseWorldPosition());
+        }
     }
     
     private void HandleMovement() {
@@ -173,17 +174,17 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         {
             //pathVectorList = Pathfinding.Instance.findBestMove();
             //DFS
-            //pathVectorList = Pathfinding.Instance.SearchDeep(GetPosition(), targetPosition);
-            //if (pathVectorList != null && pathVectorList.Count > 1)
-            //{
-            //    pathVectorList.RemoveAt(0);
-            //}
-            //BFS
-            pathVectorList = Pathfinding.Instance.BreadthFirstSearch(GetPosition(), targetPosition);
+            pathVectorList = Pathfinding.Instance.SearchDeep(GetPosition(), targetPosition);
             if (pathVectorList != null && pathVectorList.Count > 1)
             {
                 pathVectorList.RemoveAt(0);
             }
+            //BFS
+            //pathVectorList = Pathfinding.Instance.BreadthFirstSearch(GetPosition(), targetPosition);
+            //if (pathVectorList != null && pathVectorList.Count > 1)
+            //{
+            //    pathVectorList.RemoveAt(0);
+            //}
         }
         else if(mode == 1)
         {

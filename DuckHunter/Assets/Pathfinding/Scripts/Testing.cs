@@ -23,17 +23,23 @@ public class Testing : MonoBehaviour {
     [SerializeField] private CharacterPathfindingMovementHandler characterPathfinding;
     private Pathfinding pathfinding;
     public int mode;
-    public int row = 4;
-    public int column = 3;
+    public int duck_count;
+    public int bomb_count;
+    public int row;
+    public int column;
 
     private void Start() {
         if(mode == 0 || mode == 2) {
-            pathfinding = new Pathfinding(20, 30); // 20 - 15
+            row = 20;
+            column = 30;
+            pathfinding = new Pathfinding(row, column); // 20 - 15
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
         } else if (mode == 1)
         {
-            pathfinding = new Pathfinding(4,3);
+            row = 4;
+            column = 3;
+            pathfinding = new Pathfinding(row, column);
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
         }

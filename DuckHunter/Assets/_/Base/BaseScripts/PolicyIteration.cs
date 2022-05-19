@@ -16,10 +16,12 @@ public class PolicyIteration
     private int height;
     private int width;
     private System.Random rnd;
+    private ArrowCreator ac;
     
 
     public PolicyIteration(int height, int width, List<Tuple<PathNode, PathNode, int, int, double>> transitions, double gamma, int[] policy, Grid<PathNode> grid, PathNode startNode)
     {
+        ac = GameObject.Find("ArrowCreator").GetComponent<ArrowCreator>();
         numOfActions = 4;
         numOfStates = height * width;
         values = new double[numOfStates];
@@ -111,8 +113,8 @@ public class PolicyIteration
             delta = OnePolicyEval();
             deltaHistory.Add(delta);
             //Debug.Log("asdsadsadsadsadas" + delta);
-            //if (delta < tol)
-            //    break;
+            if (delta < tol)
+                break;
         }
         return deltaHistory.Count;
     }
@@ -221,7 +223,7 @@ public class PolicyIteration
         foreach (double elem in values)
             Debug.Log(elem);
 
-
+        ac.spawnArrows(policy);
     }
 
     //bulunduğun node - gideceğin node(real) - gitmek istediğin action - yapabildiğin action - olasılık

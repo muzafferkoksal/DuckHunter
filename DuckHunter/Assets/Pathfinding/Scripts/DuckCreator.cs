@@ -10,13 +10,18 @@ public class DuckCreator : MonoBehaviour {
     public GameObject duckPrefab;
     private PathfindingVisual pathfinding;
 
-    public List<Duck> ducks { get; private set; } 
-
+    public List<Duck> ducks { get; private set; }
+    public int duck_count;
+    public int row;
+    public int column;
     private bool spawned = false;
 
 
     private void Start()
     {
+        duck_count = GameObject.Find("Testing").GetComponent<Testing>().duck_count;
+        row = GameObject.Find("Testing").GetComponent<Testing>().row;
+        column = GameObject.Find("Testing").GetComponent<Testing>().column;
         pathfinding = GameObject.Find("PathfindingVisual").GetComponent<PathfindingVisual>(); 
         ducks = new List<Duck>();
         
@@ -29,10 +34,10 @@ public class DuckCreator : MonoBehaviour {
     }
     public void spawnDucks(){
         spawned = true;
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < duck_count; i++){
             System.Random rnd = new System.Random();
-            int randx = rnd.Next(0,20);
-            int randy = rnd.Next(0,30);
+            int randx = rnd.Next(0,row);
+            int randy = rnd.Next(0,column);
             GameObject duck = Instantiate(duckPrefab) as GameObject;
             Vector3 worldCoor = pathfinding.grid.GetWorldPosition(randx, randy);
             worldCoor.x += 5;
