@@ -22,11 +22,21 @@ public class Testing : MonoBehaviour {
     [SerializeField] private PathfindingVisual pathfindingVisual;
     [SerializeField] private CharacterPathfindingMovementHandler characterPathfinding;
     private Pathfinding pathfinding;
+    public int mode;
+    public int row = 4;
+    public int column = 3;
 
     private void Start() {
-        pathfinding = new Pathfinding(20, 15);
-        pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
-        pathfindingVisual.SetGrid(pathfinding.GetGrid());
+        if(mode == 0 || mode == 2) {
+            pathfinding = new Pathfinding(20, 15);
+            pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
+            pathfindingVisual.SetGrid(pathfinding.GetGrid());
+        } else if (mode == 1)
+        {
+            pathfinding = new Pathfinding(4,3);
+            pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
+            pathfindingVisual.SetGrid(pathfinding.GetGrid());
+        }
     }
 
     private void Update() {
@@ -58,12 +68,26 @@ public class Testing : MonoBehaviour {
             
         }
         */
-        if (Input.GetMouseButtonDown(1)) {
+        if (mode == 0 && Input.GetMouseButtonDown(1)) {
+            Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
+            pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
+            pathfinding.GetNode(x, y).SetIsWalkable(!pathfinding.GetNode(x, y).isWalkable);
+        } else if (mode == 1 && Input.GetMouseButtonDown(1))
+        {
+            Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
+            pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
+            pathfinding.GetNode(x, y).SetIsWalkable(!pathfinding.GetNode(x, y).isWalkable);
+            if(pathfinding.GetNode(x, y).isWalkable)
+                pathfinding.GetNode(x, y).SetProb(-999999);
+            else
+                pathfinding.GetNode(x, y).SetProb(-0.4);
+        } else if (mode == 2 && Input.GetMouseButtonDown(1))
+        {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
             pathfinding.GetNode(x, y).SetIsWalkable(!pathfinding.GetNode(x, y).isWalkable);
         }
-        
+
     }
 
 }

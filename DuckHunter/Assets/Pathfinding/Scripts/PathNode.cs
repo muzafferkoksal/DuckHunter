@@ -26,12 +26,20 @@ public class PathNode {
 
     public bool isWalkable;
     public PathNode cameFromNode;
+    public double prob;
+    public double util;
+    public bool hasPlayer;
+    public bool hasDuck;
 
     public PathNode(Grid<PathNode> grid, int x, int y) {
         this.grid = grid;
         this.x = x;
         this.y = y;
+        prob = -0.4;
+        util = 0;
         isWalkable = true;
+        hasPlayer = false;
+        hasDuck = false;
     }
 
     public void CalculateFCost() {
@@ -47,4 +55,13 @@ public class PathNode {
         return x + "," + y;
     }
 
+    public void SetProb(double newProb)
+    {
+        prob = newProb;
+    }
+
+    public double GetProb()
+    {
+        return prob;
+    }
 }

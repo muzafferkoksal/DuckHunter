@@ -9,7 +9,6 @@
                unitycodemonkey.com
     --------------------------------------------------
  */
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,13 +24,14 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
     private AnimatedWalker animatedWalker;
     private int currentPathIndex;
     private List<Vector3> pathVectorList;
-
+    public int mode;
 
     private void Start() {
         Transform bodyTransform = transform.Find("Body");
         unitSkeleton = new V_UnitSkeleton(1f, bodyTransform.TransformPoint, (Mesh mesh) => bodyTransform.GetComponent<MeshFilter>().mesh = mesh);
         unitAnimation = new V_UnitAnimation(unitSkeleton);
         animatedWalker = new AnimatedWalker(unitAnimation, UnitAnimType.GetUnitAnimType("dMarine_Idle"), UnitAnimType.GetUnitAnimType("dMarine_Walk"), 1f, 1f);
+        mode = GameObject.Find("Testing").GetComponent<Testing>().mode;
     }
 
     private void Update() {
@@ -40,6 +40,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0)) {
             SetTargetPosition(UtilsClass.GetMouseWorldPosition());
+            Debug.Log(UtilsClass.GetMouseWorldPosition());
         }
     }
     
@@ -74,11 +75,32 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
 
     public void SetTargetPosition(Vector3 targetPosition) {
         currentPathIndex = 0;
-        pathVectorList = Pathfinding.Instance.SearchDeep(GetPosition(), targetPosition);
-
-        if (pathVectorList != null && pathVectorList.Count > 1) {
-            pathVectorList.RemoveAt(0);
+        if(mode == 0)
+        {
+            pathVectorList = Pathfinding.Instance.findBestMove();
+            //DFS
+            //pathVectorList = Pathfinding.Instance.SearchDeep(GetPosition(), targetPosition);
+            //if (pathVectorList != null && pathVectorList.Count > 1)
+            //{
+            //    pathVectorList.RemoveAt(0);
+            //}
+            //BFS
+            //pathVectorList = Pathfinding.Instance.BreadthFirstSearch(GetPosition(), targetPosition);
+            //if (pathVectorList != null && pathVectorList.Count > 1)
+            //{
+            //    pathVectorList.RemoveAt(0);
+            //}
+        }
+        else if(mode == 1)
+        {
+            Pathfinding.Instance.MDP(GetPosition(), targetPosition);
+        } else if (mode == 2)
+        {
+            pathVectorList = Pathfinding.Instance.findBestMove();
+            if (pathVectorList != null && pathVectorList.Count > 1)
+            {
+                pathVectorList.RemoveAt(0);
+            }
         }
     }
-
 }
