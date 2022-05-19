@@ -2334,8 +2334,8 @@ MonoBehaviour:
   pathfindingVisual: {fileID: 2114028294}
   characterPathfinding: {fileID: 1198489100}
   mode: 1
-  duck_count: 3
-  bomb_count: 3
+  duck_count: 1
+  bomb_count: 1
   row: 4
   column: 3
 --- !u!4 &1228460025

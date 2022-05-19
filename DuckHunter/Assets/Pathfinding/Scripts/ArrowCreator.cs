@@ -37,7 +37,10 @@ public class ArrowCreator : MonoBehaviour
             {
                 PathNode pathNode = grid.GetGridObject(i, j);
                 if (!pathNode.isWalkable || !pathNode.GetCanBeFilled())
+                {
+                    a++;
                     continue;
+                }
                 //System.Random rnd = new System.Random();
                 //int randx = rnd.Next(0, row);
                 //int randy = rnd.Next(0, column);

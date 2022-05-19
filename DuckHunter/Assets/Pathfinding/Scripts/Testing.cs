@@ -29,7 +29,7 @@ public class Testing : MonoBehaviour {
     public int column;
 
     private void Start() {
-        if(mode == 0 || mode == 2) {
+        if(mode == 0 || mode == 2 || mode == 3 || mode == 4) {
             row = 20;
             column = 30;
             pathfinding = new Pathfinding(row, column); // 20 - 15
@@ -37,8 +37,8 @@ public class Testing : MonoBehaviour {
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
         } else if (mode == 1)
         {
-            row = 8;
-            column = 6;
+            row = 4;
+            column = 3;
             pathfinding = new Pathfinding(row, column);
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
