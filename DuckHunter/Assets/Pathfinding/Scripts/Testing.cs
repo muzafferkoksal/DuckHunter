@@ -28,7 +28,7 @@ public class Testing : MonoBehaviour {
 
     private void Start() {
         if(mode == 0 || mode == 2) {
-            pathfinding = new Pathfinding(20, 15);
+            pathfinding = new Pathfinding(20, 30); // 20 - 15
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
         } else if (mode == 1)
