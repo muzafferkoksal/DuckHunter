@@ -27,6 +27,7 @@ public class Pathfinding {
     private List<PathNode> closedList;
     private PathNode duckpos;
     private PathNode characterPosition;
+    private List<double> qvals = new List<double>();//We create although we do not use it for MDP, to make code shorter
     int turn;
 
     public Pathfinding(int width, int height) {
@@ -253,6 +254,7 @@ public class Pathfinding {
     {
         double randomRate = 0.2;
         List<Tuple<PathNode, PathNode, int, int, double>> transitions = new List<Tuple<PathNode, PathNode, int, int, double>>();
+        qvals.Clear();
         for(int r = 0; r < grid.GetWidth(); r++)
         {
             for(int c = 0; c < grid.GetHeight(); c++)
@@ -312,6 +314,7 @@ public class Pathfinding {
                                 {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1.0);
                                     transitions.Add(wallTuple);
+                                    qvals.Add(0);
                                 }
                                 else if (!arr[0] && arr[1])
                                 {
@@ -319,6 +322,8 @@ public class Pathfinding {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, GetNode(currentNode.x, currentNode.y - 1), toPos, 3, randomRate / 2);
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else if (arr[0] && !arr[1])
                                 {
@@ -326,6 +331,8 @@ public class Pathfinding {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1 - randomRate / 2);
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else
                                 {
@@ -335,6 +342,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                             }
                             else
@@ -344,6 +354,7 @@ public class Pathfinding {
                                 {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1.0);
                                     transitions.Add(wallTuple);
+                                    qvals.Add(0);
                                 }
                                 else if (!arr[0] && arr[1])
                                 {
@@ -351,6 +362,8 @@ public class Pathfinding {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, GetNode(currentNode.x - 1, currentNode.y), toPos, 0, randomRate / 2);
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else if (arr[0] && !arr[1])
                                 {
@@ -358,6 +371,8 @@ public class Pathfinding {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1 - randomRate / 2);
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else
                                 {
@@ -367,6 +382,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                             }
                         }
@@ -381,6 +399,8 @@ public class Pathfinding {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, nb, toPos, pos, 1 - randomRate);
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else if (!arr[0] && arr[1])
                                 {
@@ -390,6 +410,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else if (arr[0] && !arr[1])
                                 {
@@ -399,6 +422,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else
                                 {
@@ -408,6 +434,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                             }
                             else
@@ -419,6 +448,8 @@ public class Pathfinding {
                                     Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, nb, toPos, pos, 1 - randomRate);
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else if (!arr[0] && arr[1])
                                 {
@@ -428,6 +459,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else if (arr[0] && !arr[1])
                                 {
@@ -437,6 +471,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                                 else
                                 {
@@ -446,6 +483,9 @@ public class Pathfinding {
                                     transitions.Add(wallTuple);
                                     transitions.Add(wallTuple2);
                                     transitions.Add(wallTuple3);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
+                                    qvals.Add(0);
                                 }
                             }
                         }
@@ -466,6 +506,7 @@ public class Pathfinding {
                             {
                                 Tuple<PathNode, PathNode, int, int, double> wallTuple = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1.0);
                                 transitions.Add(wallTuple);
+                                qvals.Add(0);
                             }
                             else if (!arr[0] && arr[1])
                             {
@@ -473,6 +514,8 @@ public class Pathfinding {
                                 Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, GetNode(currentNode.x, currentNode.y - 1), toPos, 3, randomRate / 2);
                                 transitions.Add(wallTuple);
                                 transitions.Add(wallTuple2);
+                                qvals.Add(0);
+                                qvals.Add(0);
                             }
                             else if (arr[0] && !arr[1])
                             {
@@ -480,6 +523,8 @@ public class Pathfinding {
                                 Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1 - randomRate / 2);
                                 transitions.Add(wallTuple);
                                 transitions.Add(wallTuple2);
+                                qvals.Add(0);
+                                qvals.Add(0);
                             }
                             else
                             {
@@ -489,6 +534,9 @@ public class Pathfinding {
                                 transitions.Add(wallTuple);
                                 transitions.Add(wallTuple2);
                                 transitions.Add(wallTuple3);
+                                qvals.Add(0);
+                                qvals.Add(0);
+                                qvals.Add(0);
                             }
                         }
                         else
@@ -498,6 +546,7 @@ public class Pathfinding {
                             {
                                 Tuple<PathNode, PathNode, int, int, double> wallTuple = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1.0);
                                 transitions.Add(wallTuple);
+                                qvals.Add(0);
                             }
                             else if (!arr[0] && arr[1])
                             {
@@ -505,6 +554,8 @@ public class Pathfinding {
                                 Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, GetNode(currentNode.x - 1, currentNode.y), toPos, 0, randomRate / 2);
                                 transitions.Add(wallTuple);
                                 transitions.Add(wallTuple2);
+                                qvals.Add(0);
+                                qvals.Add(0);
                             }
                             else if (arr[0] && !arr[1])
                             {
@@ -512,6 +563,8 @@ public class Pathfinding {
                                 Tuple<PathNode, PathNode, int, int, double> wallTuple2 = new Tuple<PathNode, PathNode, int, int, double>(currentNode, currentNode, toPos, 5, 1 - randomRate / 2);
                                 transitions.Add(wallTuple);
                                 transitions.Add(wallTuple2);
+                                qvals.Add(0);
+                                qvals.Add(0);
                             }
                             else
                             {
@@ -521,8 +574,10 @@ public class Pathfinding {
                                 transitions.Add(wallTuple);
                                 transitions.Add(wallTuple2);
                                 transitions.Add(wallTuple3);
+                                qvals.Add(0);
+                                qvals.Add(0);
+                                qvals.Add(0);
                             }
-
                         }
                         index++;
                     }
@@ -544,6 +599,20 @@ public class Pathfinding {
         List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
         PolicyIteration poly = new PolicyIteration(grid.GetHeight(), grid.GetWidth(), transitions, 0.5, null, grid, startNode);
         poly.train();
+    }
+
+    public void QLearn(Vector3 startWorldPosition, Vector3 endWorldPosition)
+    {
+        grid.GetXY(startWorldPosition, out int startX, out int startY);
+        grid.GetXY(endWorldPosition, out int endX, out int endY);
+        PathNode endNode = grid.GetGridObject(endX, endY);
+        PathNode startNode = grid.GetGridObject(startX, startY);
+        //PathNode asd = grid.GetGridObject(3, 1);
+        //endNode.SetProb(3.0);
+        //asd.SetProb(-5.0);
+        List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
+        QLearning qlearn = new QLearning(qvals, grid.GetHeight(), grid.GetWidth(), transitions, 0.9, 0.3, grid, 0.2 ,startNode);
+        qlearn.Train();
     }
 
     public PathNode GetNode(int x, int y) {

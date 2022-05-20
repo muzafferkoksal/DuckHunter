@@ -27,6 +27,7 @@ public class ArrowCreator : MonoBehaviour
     {
 
     }
+
     public void spawnArrows(int[] arr)
     {
         spawned = true;

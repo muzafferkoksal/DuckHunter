@@ -35,7 +35,7 @@ public class Testing : MonoBehaviour {
             pathfinding = new Pathfinding(row, column); // 20 - 15
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
-        } else if (mode == 1)
+        } else if (mode == 1 || mode == 5)
         {
             row = 4;
             column = 3;
@@ -74,11 +74,11 @@ public class Testing : MonoBehaviour {
             
         }
         */
-        if (mode == 0 && Input.GetMouseButtonDown(1)) {
+        if (mode == 0 && Input.GetMouseButtonDown(1) || mode == 3 && Input.GetMouseButtonDown(1) || mode == 4 && Input.GetMouseButtonDown(1)) {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
             pathfinding.GetNode(x, y).SetIsWalkable(!pathfinding.GetNode(x, y).isWalkable);
-        } else if (mode == 1 && Input.GetMouseButtonDown(1))
+        } else if (mode == 1 && Input.GetMouseButtonDown(1) || mode == 5 && Input.GetMouseButtonDown(1))
         {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
@@ -93,7 +93,5 @@ public class Testing : MonoBehaviour {
             pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
             pathfinding.GetNode(x, y).SetIsWalkable(!pathfinding.GetNode(x, y).isWalkable);
         }
-
     }
-
 }

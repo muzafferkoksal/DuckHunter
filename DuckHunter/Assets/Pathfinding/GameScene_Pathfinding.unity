@@ -2333,7 +2333,7 @@ MonoBehaviour:
   pathfindingDebugStepVisual: {fileID: 769941770}
   pathfindingVisual: {fileID: 2114028294}
   characterPathfinding: {fileID: 1198489100}
-  mode: 1
+  mode: 5
   duck_count: 1
   bomb_count: 1
   row: 4

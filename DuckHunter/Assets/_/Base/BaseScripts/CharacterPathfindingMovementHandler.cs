@@ -236,6 +236,11 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
                 pathVectorList.RemoveAt(0);
             }
         }
+        else if (mode == 5)
+        {
+            //Q learning
+            Pathfinding.Instance.QLearn(GetPosition(), targetPosition);
+        }
     }
 
     private void setTime(TimeSpan t)
