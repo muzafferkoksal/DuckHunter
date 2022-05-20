@@ -92,10 +92,10 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
             setTime(timer.Elapsed);
             //UnityEngine.Debug.Log(elapsed);
-            aiStarted = false;      
+            aiStarted = false;
         }
-    
-        if (aiStarted)
+
+        if (aiStarted && !searchingDuck)
         {
             string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
             setTime(timer.Elapsed);
@@ -152,7 +152,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             int dX = ducks.ducks[k].x;
             int dY = ducks.ducks[k].y;
             if (hunterX == dX && hunterY == dY)
-            {     
+            {
                 ducks.removeDuck(ducks.ducks[k].duckObj);
                 if((ducks.ducks).Any())
                     searchingDuck = true;
@@ -170,7 +170,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             UnityEngine.Debug.Log(UtilsClass.GetMouseWorldPosition());
         }
     }
-    
+
     private void HandleMovement() {
         if (pathVectorList != null) {
             Vector3 targetPosition = pathVectorList[currentPathIndex];

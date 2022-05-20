@@ -46,12 +46,6 @@ public class Pathfinding{
         return grid;
     }
 
-    /*public void Update(){
-        Debug.Log(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].x);
-        Debug.Log(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].y);
-   
-    }
-    */
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition) {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
@@ -94,7 +88,7 @@ public class Pathfinding{
         startNode.gCost = 0;
         startNode.hCost = CalculateDistanceCost(startNode, endNode);
         startNode.CalculateFCost();
-        
+
         PathfindingDebugStepVisual.Instance.ClearSnapshots();
         PathfindingDebugStepVisual.Instance.TakeSnapshot(grid, startNode, openList, closedList);
 
@@ -160,7 +154,7 @@ public class Pathfinding{
             if (currentNode.y + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y + 1));
             */
         }
-       
+
         // Up
         if (currentNode.y + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.x, currentNode.y + 1));
         // Down
@@ -188,7 +182,7 @@ public class Pathfinding{
                 arr[0] = right;
                 arr[1] = left;
             }
-        } 
+        }
         else
         {
             PathNode topNode = GetNode(currentNode.x, currentNode.y + 1);
@@ -248,7 +242,7 @@ public class Pathfinding{
                 if (currentNode.y + 1 >= grid.GetHeight())
                 {
                     arr[0] = false;
-                } 
+                }
                 if (currentNode.y - 1< 0)
                 {
                     arr[1] = false;
@@ -269,7 +263,7 @@ public class Pathfinding{
             {
                 Debug.Log("r " + currentNode.x + " c " + currentNode.y);
                 currentNode = GetNode(0 + r, 0 + c);
-                
+
                 if (currentNode.isWalkable)
                 {
                     List<Tuple<PathNode, int>> neighbourList = new List<Tuple<PathNode, int>>();
@@ -279,14 +273,14 @@ public class Pathfinding{
                     {// Right
                         neighbourList.Add(new Tuple<PathNode, int>(GetNode(currentNode.x + 1, currentNode.y), 1));
                     }
-                    else { 
+                    else {
                         negList.Add(new Tuple<PathNode, int>(GetNode(currentNode.x + 1, currentNode.y), 1));
                     }
                     if (currentNode.x - 1 >= 0)
                     {// Left
                         neighbourList.Add(new Tuple<PathNode, int>(GetNode(currentNode.x - 1, currentNode.y), 0));
                     }
-                    else 
+                    else
                     {
                         negList.Add(new Tuple<PathNode, int>(GetNode(currentNode.x - 1, currentNode.y), 0));
                     }
@@ -301,7 +295,7 @@ public class Pathfinding{
                     {// Down
                         neighbourList.Add(new Tuple<PathNode, int>(GetNode(currentNode.x, currentNode.y - 1), 3));
                     }
-                    else { 
+                    else {
                         negList.Add(new Tuple<PathNode, int>(GetNode(currentNode.x, currentNode.y - 1), 3));
                     }
 
@@ -611,7 +605,7 @@ public class Pathfinding{
             poly.train();
         }
         enter2 = false;
-        
+
     }
 
     public void QLearn(Vector3 startWorldPosition, Vector3 endWorldPosition)
@@ -630,7 +624,7 @@ public class Pathfinding{
             qlearn.Train();
         }
         enter1 = false;
-        
+
     }
 
     public PathNode GetNode(int x, int y) {
@@ -709,8 +703,8 @@ public class Pathfinding{
             }
         }
 
-        
-        
+
+
         foreach (PathNode neighbourNode in GetNeighbourList(startNode)){
             openList = new List<PathNode>();
             closedList = new List<PathNode>();
@@ -734,7 +728,7 @@ public class Pathfinding{
         return null;
     }
     public List<PathNode> SearchDeep(PathNode node, PathNode endNode, int n)
-    {    
+    {
         //Debug.Log("SEARCHING IN THE DEEP");
         bool flag = false;
 
@@ -752,7 +746,7 @@ public class Pathfinding{
             {
                 flag = true;
                 neighbourNode.cameFromNode = node;
-                
+
                 openList.Add(neighbourNode);
                 //Debug.Log("Moving on to " + neighbourNode + "n = " + n );
                 return SearchDeep(neighbourNode, endNode, ++n);
@@ -764,11 +758,11 @@ public class Pathfinding{
         }
         if (!flag)
         {
-            
+
             closedList.Add(node);
             Debug.Log("No go on this tile");
         }
-          
+
         return null;
     }
 
@@ -840,7 +834,7 @@ public class Pathfinding{
                 {
                     openList.Add(neighbourNode);
                     neighbourNode.cameFromNode = currentNode;
-                    
+
                 }
             }
             n++;
@@ -964,7 +958,7 @@ public class Pathfinding{
                     Debug.Log("score = " + 100 / ManhattanDistance(characterPosition, grid.GetGridObject(i, j)));
                     return 100 / ManhattanDistance(characterPosition, grid.GetGridObject(i, j));
                 }
-                    
+
             }
         }
         */
@@ -978,7 +972,7 @@ public class Pathfinding{
         {
             score = 50 - getNearestDistToEdge(duckpos.x, duckpos.y) - ManhattanDistance(characterPosition, duckpos);
         }
-        
+
         return score;
     }
 
@@ -1065,7 +1059,7 @@ public class Pathfinding{
     {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
-        
+
 
         List<PathNode> path = UCS(startX, startY, endX, endY);
         if (path == null)
