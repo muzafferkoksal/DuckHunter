@@ -40,17 +40,24 @@ namespace GridPathfindingSystem {
         public int hValue;
         public int fValue;
 
+        public int qval;
+        // public Random rnd;
+        public double prob;
         //public Transform trans;
         //public int layerMask = 1 << 9;
 
         public PathNode(int _xPos, int _yPos) {
             xPos = _xPos;
             yPos = _yPos;
-
+            prob = -0.4;
             moveNorth = true;
             moveSouth = true;
             moveWest = true;
             moveEast = true;
+            //rnd = new Random();
+            //int randInt = rnd.Next(0,100);
+            //prob = (double)randInt / (double)100;
+
 
             //trans = ((GameObject) Object.Instantiate(Resources.Load("pfPathNode"), new Vector3(xPos*10, 0, zPos*10), Quaternion.identity)).transform;
             TestHitbox();
@@ -86,6 +93,7 @@ namespace GridPathfindingSystem {
         public Vector3 GetWorldVector(Vector3 worldOrigin, float nodeSize) {
             return worldOrigin + new Vector3(xPos * nodeSize, yPos * nodeSize);
         }
+
     }
 
 }

@@ -16,7 +16,7 @@ using UnityEngine;
 
 public class PathfindingVisual : MonoBehaviour {
 
-    private Grid<PathNode> grid;
+    public Grid<PathNode> grid;
     private Mesh mesh;
     private bool updateMesh;
 
