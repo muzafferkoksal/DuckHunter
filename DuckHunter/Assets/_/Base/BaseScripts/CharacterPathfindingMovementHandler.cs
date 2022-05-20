@@ -35,7 +35,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
     private bool aiStarted = false;
     private Stopwatch timer;
     public Text timeText;
-    private bool searchingDuck;
+    private bool searchingDuck = false;
     private int hunterY = 0, hunterX = 0;
     private GameObject duck = null;
     private Vector3 worldDuck = new Vector3(0, 0, 0);
@@ -77,13 +77,14 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         {
             //UnityEngine.Debug.Log("here");
             Duck closest = ducks.getClosestDuck(worldHunter);
-
+            UnityEngine.Debug.Log("Found the culprit");
             duckX = closest.x;
             duckY = closest.y;
             duck = closest.duckObj;
             worldDuck = closest.worldCoor;
             //UnityEngine.Debug.Log("Searching duck");
             searchingDuck = false;
+            SetTargetPosition(worldDuck);
         }
         else if(!(ducks.ducks).Any())
         {
@@ -93,15 +94,15 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             //UnityEngine.Debug.Log(elapsed);
             aiStarted = false;      
         }
-        else{
-            aiStarted = false;
-        }
-
-        if (aiStarted && !searchingDuck)
+    
+        if (aiStarted)
         {
             string elapsed = "Time taken: " + timer.Elapsed.ToString(@"m\:ss\.fff");
             setTime(timer.Elapsed);
-            SetTargetPosition(worldDuck);
+        }
+        if (aiStarted && !searchingDuck)
+        {
+            //SetTargetPosition(worldDuck);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -153,7 +154,8 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             if (hunterX == dX && hunterY == dY)
             {     
                 ducks.removeDuck(ducks.ducks[k].duckObj);
-                searchingDuck = true;
+                if((ducks.ducks).Any())
+                    searchingDuck = true;
                 aiStarted = true;
             }
         }
@@ -162,12 +164,11 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         {
             Restart();
         }
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    SetTargetPosition(UtilsClass.GetMouseWorldPosition());
-        //    UnityEngine.Debug.Log(UtilsClass.GetMouseWorldPosition());
-        //}
+        if (Input.GetMouseButtonDown(0) && mode == 2)
+        {
+           SetTargetPosition(UtilsClass.GetMouseWorldPosition());
+            UnityEngine.Debug.Log(UtilsClass.GetMouseWorldPosition());
+        }
     }
     
     private void HandleMovement() {
@@ -204,6 +205,11 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         if(mode == 0)
         {
             //DFS
+            var li = GameObject.Find("BombCreator").GetComponent<BombCreator>().bombs;
+            for (int l = 0; li.Any() && l < li.Count; l++)
+            {
+                li[l].bombObj.SetActive(false);
+            }
             pathVectorList = Pathfinding.Instance.SearchDeep(GetPosition(), targetPosition);
             if (pathVectorList != null && pathVectorList.Count > 1)
             {
@@ -228,7 +234,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         {
             //BFS
             var li = GameObject.Find("BombCreator").GetComponent<BombCreator>().bombs;
-            for(int l = 0; l < li.Count; l++){
+            for(int l = 0; li.Any() && l < li.Count; l++){
                 li[l].bombObj.SetActive(false);
             }
             pathVectorList = Pathfinding.Instance.BreadthFirstSearch(GetPosition(), targetPosition);
@@ -250,6 +256,20 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         {
             //Q learning
             Pathfinding.Instance.QLearn(GetPosition(), targetPosition);
+        }
+        else if(mode == 6)
+        {
+            //A* SEARCH
+            var li = GameObject.Find("BombCreator").GetComponent<BombCreator>().bombs;
+            for (int l = 0; li.Any() && l < li.Count; l++)
+            {
+                li[l].bombObj.SetActive(false);
+            }
+            pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition);
+            if (pathVectorList != null && pathVectorList.Count > 1)
+            {
+                pathVectorList.RemoveAt(0);
+            }
         }
     }
 

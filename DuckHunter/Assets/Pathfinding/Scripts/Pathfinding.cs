@@ -15,13 +15,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Pathfinding:  MonoBehaviour  {
+public class Pathfinding{
 
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
 
     public static Pathfinding Instance { get; private set; }
-
+    bool enter1 = true;
+    bool enter2 = true;
     private Grid<PathNode> grid;
     private List<PathNode> openList;
     private List<PathNode> closedList;
@@ -29,29 +30,31 @@ public class Pathfinding:  MonoBehaviour  {
     private PathNode characterPosition;
     private List<double> qvals = new List<double>();//We create although we do not use it for MDP, to make code shorter
     int turn;
+    public DuckCreator duckC;
 
     public Pathfinding(int width, int height) {
         Instance = this;
         grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
         duckpos = GetNode(0, 5);
-        Debug.Log(duckpos);
+        //Debug.Log(duckpos);
         characterPosition = GetNode(0, 0);
         turn = 0;
+        duckC = GameObject.Find("DuckCreator").GetComponent<DuckCreator>();
     }
 
     public Grid<PathNode> GetGrid() {
         return grid;
     }
 
-    public void Update(){
+    /*public void Update(){
         Debug.Log(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].x);
         Debug.Log(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].y);
    
     }
+    */
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition) {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
-        Debug.Log("yass");
 
         List<PathNode> path = FindPath(startX, startY, endX, endY);
         if (path == null) {
@@ -594,30 +597,40 @@ public class Pathfinding:  MonoBehaviour  {
 
     public void MDP(Vector3 startWorldPosition, Vector3 endWorldPosition)
     {
-        grid.GetXY(startWorldPosition, out int startX, out int startY);
-        grid.GetXY(endWorldPosition, out int endX, out int endY);
-        PathNode endNode = grid.GetGridObject(endX, endY);
-        PathNode startNode = grid.GetGridObject(startX, startY);
-        //PathNode asd = grid.GetGridObject(3, 1);
-        //endNode.SetProb(3.0);
-        //asd.SetProb(-5.0);
-        List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
-        PolicyIteration poly = new PolicyIteration(grid.GetHeight(), grid.GetWidth(), transitions, 0.5, null, grid, startNode);
-        poly.train();
+        if (enter2)
+        {
+            grid.GetXY(startWorldPosition, out int startX, out int startY);
+            grid.GetXY(endWorldPosition, out int endX, out int endY);
+            PathNode endNode = grid.GetGridObject(endX, endY);
+            PathNode startNode = grid.GetGridObject(startX, startY);
+            //PathNode asd = grid.GetGridObject(3, 1);
+            //endNode.SetProb(3.0);
+            //asd.SetProb(-5.0);
+            List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
+            PolicyIteration poly = new PolicyIteration(grid.GetHeight(), grid.GetWidth(), transitions, 0.5, null, grid, startNode);
+            poly.train();
+        }
+        enter2 = false;
+        
     }
 
     public void QLearn(Vector3 startWorldPosition, Vector3 endWorldPosition)
     {
-        grid.GetXY(startWorldPosition, out int startX, out int startY);
-        grid.GetXY(endWorldPosition, out int endX, out int endY);
-        PathNode endNode = grid.GetGridObject(endX, endY);
-        PathNode startNode = grid.GetGridObject(startX, startY);
-        //PathNode asd = grid.GetGridObject(3, 1);
-        //endNode.SetProb(3.0);
-        //asd.SetProb(-5.0);
-        List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
-        QLearning qlearn = new QLearning(qvals, grid.GetHeight(), grid.GetWidth(), transitions, 0.9, 0.3, grid, 0.2 ,startNode);
-        qlearn.Train();
+        if (enter1)
+        {
+            grid.GetXY(startWorldPosition, out int startX, out int startY);
+            grid.GetXY(endWorldPosition, out int endX, out int endY);
+            PathNode endNode = grid.GetGridObject(endX, endY);
+            PathNode startNode = grid.GetGridObject(startX, startY);
+            //PathNode asd = grid.GetGridObject(3, 1);
+            //endNode.SetProb(3.0);
+            //asd.SetProb(-5.0);
+            List<Tuple<PathNode, PathNode, int, int, double>> transitions = GetTransitionFunction(startNode);
+            QLearning qlearn = new QLearning(qvals, grid.GetHeight(), grid.GetWidth(), transitions, 0.9, 0.3, grid, 0.2, startNode);
+            qlearn.Train();
+        }
+        enter1 = false;
+        
     }
 
     public PathNode GetNode(int x, int y) {
@@ -658,7 +671,7 @@ public class Pathfinding:  MonoBehaviour  {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
 
-        Debug.Log("SEARCHING IN THE DEEP");
+        //Debug.Log("SEARCHING IN THE DEEP");
         List<PathNode> path = SearchDeep(startX, startY, endX, endY);
         if (path == null)
         {
@@ -677,7 +690,7 @@ public class Pathfinding:  MonoBehaviour  {
 
     public List<PathNode> SearchDeep(int startX, int startY, int endX, int endY)
     {
-        Debug.Log("SEARCHING IN THE DEEP");
+        //Debug.Log("SEARCHING IN THE DEEP");
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
 
@@ -696,15 +709,27 @@ public class Pathfinding:  MonoBehaviour  {
             }
         }
 
-        openList = new List<PathNode>();
-        closedList = new List<PathNode>();
-        PathNode currentNode = startNode;
-        closedList.Add(startNode);
+        
         
         foreach (PathNode neighbourNode in GetNeighbourList(startNode)){
+            openList = new List<PathNode>();
+            closedList = new List<PathNode>();
+            PathNode currentNode = startNode;
+            closedList.Add(startNode);
             List<PathNode> path = SearchDeep(neighbourNode, endNode, 0);
             if (path != null)
+            {
                 return path;
+            }
+            for (int x = 0; x < grid.GetWidth(); x++)
+            {
+                for (int y = 0; y < grid.GetHeight(); y++)
+                {
+                    PathNode pathNode = grid.GetGridObject(x, y);
+                    pathNode.cameFromNode = null;
+                }
+            }
+
         }
         return null;
     }
@@ -729,7 +754,7 @@ public class Pathfinding:  MonoBehaviour  {
                 neighbourNode.cameFromNode = node;
                 
                 openList.Add(neighbourNode);
-                Debug.Log("Moving on to " + neighbourNode + "n = " + n );
+                //Debug.Log("Moving on to " + neighbourNode + "n = " + n );
                 return SearchDeep(neighbourNode, endNode, ++n);
             }
             else if(!closedList.Contains(neighbourNode) && !neighbourNode.isWalkable)
@@ -919,6 +944,15 @@ public class Pathfinding:  MonoBehaviour  {
         }
     }
 
+
+    public int getNearestDistToEdge(int x, int y)
+    {
+        int min = Math.Min(x, y);
+        min =  Math.Min(min, grid.GetWidth() - x);
+        min = Math.Min(min,grid.GetHeight() - y);
+        return min;
+    }
+
     public int getScore()
     {
         /*
@@ -935,7 +969,17 @@ public class Pathfinding:  MonoBehaviour  {
         }
         */
         //Debug.Log("score = " + 100 / ManhattanDistance(characterPosition, duckpos));
-        return 100 / ManhattanDistance(characterPosition, duckpos);
+        int score;
+        if (turn == 0)
+        {
+            score = 50 - getNearestDistToEdge(duckpos.x, duckpos.y) - ManhattanDistance(characterPosition, duckpos);
+        }
+        else
+        {
+            score = 50 - getNearestDistToEdge(duckpos.x, duckpos.y) - ManhattanDistance(characterPosition, duckpos);
+        }
+        
+        return score;
     }
 
     public bool isNoDucks()
@@ -952,7 +996,6 @@ public class Pathfinding:  MonoBehaviour  {
         }
         return flag;
     }
-
     public class Pair<T1, T2>
     {
         public T1 First { get; set; }
@@ -960,8 +1003,7 @@ public class Pathfinding:  MonoBehaviour  {
     }
     public List<Vector3> findBestMove()
     {
-
-        if (turn == 0 || turn == 1)
+        if (turn == 0)
         {
             //turn of the hunter
             PathNode temp = characterPosition;
@@ -984,7 +1026,7 @@ public class Pathfinding:  MonoBehaviour  {
             bestNode.First.cameFromNode = characterPosition;
 
             //HAHAHA
-            turn++;
+            turn=1;
             List<PathNode> path = new List<PathNode>();
             path.Add(bestNode.First);
             if (path == null)
@@ -1005,52 +1047,15 @@ public class Pathfinding:  MonoBehaviour  {
                 return vectorPath;
             }
         }
-        else if (turn == 2) //duck
+        else if (turn == 1) //duck
         {
-            PathNode temp = duckpos;
-            Pair<PathNode, int> bestNode = new Pair<PathNode, int>();
-            bestNode.First = null;
-            bestNode.Second = +10000;
-
-            foreach (PathNode neighbour in GetNeighbourList(duckpos))
-            {
-                duckpos = neighbour;
-                int moveval = MiniMax(false, neighbour, neighbour, 1, 15);
-                if (moveval < bestNode.Second)
-                {
-                    bestNode.First = neighbour;
-                    bestNode.Second = moveval;
-                }
-                duckpos = temp;
-            }
-            Debug.Log("debug1 bestnode first = " + bestNode.First);
-
-            bestNode.First.cameFromNode = duckpos;
-            Debug.Log("debug 2");
-
-            //HAHAHA
-
-            List<PathNode> path = new List<PathNode>();
-            path.Add(bestNode.First);
             turn = 0;
-            if (path == null)
-            {
-                return null;
-            }
-            else
-            {
-                List<Vector3> vectorPath = new List<Vector3>();
-
-                foreach (PathNode pathNode in path)
-                {
-                    vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize() + Vector3.one * grid.GetCellSize() * .5f);
-                }
-                Debug.Log("Duck's turn");
-                Debug.Log(path[0]);
-                duckpos = path[0];
-                //return vectorPath;
-                return null;
-            }
+            //int rand = UnityEngine.Random.Range(0, GetNeighbourList(duckpos).Count);
+            int rand = UnityEngine.Random.Range(0, 3);
+            duckpos = GetNode(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].x, GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].y);
+            Debug.Log("Duckpos = " + duckpos);
+            GameObject myduck = duckC.ducks[0].duckObj;
+            duckC.moveDuck(myduck, rand);
         }
         return null;
 
@@ -1060,7 +1065,7 @@ public class Pathfinding:  MonoBehaviour  {
     {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
-        Debug.Log("yass");
+        
 
         List<PathNode> path = UCS(startX, startY, endX, endY);
         if (path == null)

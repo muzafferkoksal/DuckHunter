@@ -52,7 +52,7 @@ public class QLearning
         double max_next_rew = 0;
         int action = -1;
         double rndm = rnd.Next(0, 10);
-        if (rndm <= exp_rate)
+        if (rndm <= exp_rate * 10)
         {
             int act = rnd.Next(0, 4);
             action = act;

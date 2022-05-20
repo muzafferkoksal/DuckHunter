@@ -39,8 +39,8 @@ public class Testing : MonoBehaviour {
 
         } else if (mode == 1 || mode == 5)                     // 1-mdp  5 q learning
         {
-            row = 4;
-            column = 3;
+            row = 8;
+            column = 6;
             pathfinding = new Pathfinding(row, column);
             pathfindingDebugStepVisual.Setup(pathfinding.GetGrid());
             pathfindingVisual.SetGrid(pathfinding.GetGrid());
