@@ -10,7 +10,10 @@
   6 - A* Search
 
 For search algorithms(modes 0-3-4-6), pressing "space" initiates the search algorithm and the character finds the ducks by itself.
-Pressing "WASD" buttons or directional buttons allows the player to control the character manually. 
+Pressing "WASD" buttons or arrow buttons allows the player to control the character manually. The ai search can be interrupted and stopped by clicking one of those buttons. R button restarts the game for search algorithms.
+
+To change ducks' speed, press "CreateDucks" game object in the game objects tab and change the public property named "spee". 
+If the spee is 0, the ducks become stationary.
 
 For adversarial search, pressing the left mouse key causes the character to move 1 tile. The second click causes the duck to move and so on. This allows the user to see the decision making process of the character in each step.
 
