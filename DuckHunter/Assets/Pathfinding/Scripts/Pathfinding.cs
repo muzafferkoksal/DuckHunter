@@ -43,11 +43,6 @@ public class Pathfinding:  MonoBehaviour  {
         return grid;
     }
 
-    public void Update(){
-        Debug.Log(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].x);
-        Debug.Log(GameObject.Find("DuckCreator").GetComponent<DuckCreator>().ducks[0].y);
-   
-    }
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition) {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
