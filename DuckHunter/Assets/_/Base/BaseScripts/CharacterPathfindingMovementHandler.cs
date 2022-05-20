@@ -93,9 +93,6 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             //UnityEngine.Debug.Log(elapsed);
             aiStarted = false;      
         }
-        else{
-            aiStarted = false;
-        }
 
         if (aiStarted && !searchingDuck)
         {
